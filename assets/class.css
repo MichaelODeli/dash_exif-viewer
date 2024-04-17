@@ -1,0 +1,6 @@
+@media (max-width: 768px) {
+    .grid-padding {
+        padding-top: 10px;
+        margin: unset;
+    }
+}

@@ -12,12 +12,12 @@ from dash import (
 )
 import dash_mantine_components as dmc
 
-register_page(__name__, path="/uploader", icon="fa-solid:home")
+register_page(__name__, path="/guide", icon="fa-solid:home")
 
 def layout(**other_unknown_query_strings):
 
     return dmc.Container(
-        children=[dmc.Text('File uploader page. No captcha will be here.')
+        children=[dmc.Text('Help page')
         ],
         pt=20,
         style={"paddingTop": 20},

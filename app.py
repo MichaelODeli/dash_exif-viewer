@@ -1,10 +1,14 @@
 import dash
-from dash import dcc, html, Output, Input, State
+from dash import dcc, html, Output, Input, State, clientside_callback
 import dash_mantine_components as dmc
 from dash_iconify import DashIconify
 import dash_bootstrap_components as dbc
 
-app = dash.Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(
+    __name__,
+    use_pages=True,
+    external_stylesheets=[dbc.themes.ZEPHYR, dbc.icons.FONT_AWESOME],
+)
 
 server = app.server
 app.config.suppress_callback_exceptions = True
@@ -18,29 +22,59 @@ def get_icon(icon):
         variant="subtle",
     )
 
+
 navbar = dbc.Navbar(
     dbc.Container(
         [
             html.A(
-                # Use row and col to control vertical alignment of logo / brand
                 "EXIF Viewer",
                 href="/",
                 className="h3 me-5",
-                style={"textDecoration": "none", "color": "black"},
+                style={"textDecoration": "none"},
             ),
-            dbc.NavbarToggler(id="navbar-toggler", n_clicks=0),
+            dbc.NavbarToggler(id="navbar-toggler", n_clicks=0), 
             dbc.Collapse(
                 children=[
-                    dbc.Row(
+                    dmc.Grid(
                         [
-                            dbc.Col(
-                                dbc.DropdownMenuItem("Instruction",href="https://example.com"),
+                            dmc.Col(
+                                html.A(
+                                    "Инструкция",
+                                    href="/guide",
+                                    style={
+                                        "text-decoration": "none",
+                                        "font-size": '1rem'
+                                    },
+                                ),
+                                span="content",
                             ),
-                            dbc.Col(width="auto"),
-                            dbc.Col(
-                                dbc.DropdownMenuItem("Support",href="https://example.com"),
+                            dmc.Col(span="auto"),
+                            dmc.Col(
+                                html.Span(
+                                    [
+                                        dbc.Label(
+                                            className="fa fa-moon",
+                                            html_for="color-mode-switch",
+                                            color="primary",
+                                        ),
+                                        dbc.Switch(
+                                            id="color-mode-switch",
+                                            value=True,
+                                            className="d-inline-block ms-1",
+                                            persistence=True,
+                                        ),
+                                        dbc.Label(
+                                            className="fa fa-sun",
+                                            html_for="color-mode-switch",
+                                            color="primary",
+                                        ),
+                                    ]
+                                ),
+                                span="content",
                             ),
-                        ]
+                        ],
+                        className='grid-padding',
+                        style={'min-width': '100%'}
                     )
                 ],
                 id="navbar-collapse",
@@ -49,7 +83,8 @@ navbar = dbc.Navbar(
             ),
         ]
     ),
-    color="light",
+    class_name='rounded border-bottom',
+    color='default',
     # dark=True,
 )
 
@@ -70,5 +105,16 @@ def toggle_navbar_collapse(n, is_open):
     return is_open
 
 
+clientside_callback(
+    """
+    (switchOn) => {
+       document.documentElement.setAttribute('data-bs-theme', switchOn ? 'light' : 'dark');  
+       return window.dash_clientside.no_update
+    }
+    """,
+    Output("color-mode-switch", "id"),
+    Input("color-mode-switch", "value"),
+)
+
 if __name__ == "__main__":
-    app.run_server(debug=True, host="0.0.0.0", port=8050)
+    app.run_server(debug=True, host="0.0.0.0", port=82)

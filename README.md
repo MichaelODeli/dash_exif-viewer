@@ -1,11 +1,10 @@
 # dash_exif-viewer
-EXIF Viewer based on Python Dash framework.
+Программа просмотра EXIF, основанная на платформе Python Dash.
 
-## Features
-- Web app, optimised for phones and PCs
-- Auto-remove uploaded files (upload - get EXIF data - remove from server)
-- Client-side files check (non-image files won't be uploaded)
-- Simple UI
-- and some magic...
+## Возможности
+- Веб-приложение, оптимизированное для телефонов и ПК
+- Автоматическое удаление загруженных файлов (загрузка - получение данных EXIF - удаление файла с сервера)
+- Проверка файлов на стороне клиента (файлы, не содержащие изображений, загружаться не будут)
+- Простой пользовательский интерфейс и немного магии...
 
-> Important: the product is being developed for individual use.
+> Важно: продукт предназначен для индивидуального использования. Многопользовательский доступ в данный момент не разрабатывается.
